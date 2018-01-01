@@ -44,17 +44,38 @@ transport_block_with_crc = [transport_block, crc_for_tb];
 % CRC attachment. Section 5.2.2
 [code_blocks, number_of_code_blocks, K, Z_c] = cb_segment_and_cb_crc_attach(transport_block_with_crc, ldpc_base_graph);
 
+code_block_group_per_tb_info = ones(1, number_of_code_blocks);
+
+G = number_of_code_blocks * K;
+
 encoded_bits = cell(1, number_of_code_blocks);
+rate_matching_output_sequence_length = cell(1, number_of_code_blocks);
+rate_matching_output_sequence = cell(1, number_of_code_blocks);
+interleaving_output_sequence = cell(1, number_of_code_blocks);
+
 for code_block_index = 1:number_of_code_blocks
 % 3GPP TS 38.212 subclause 6.2.4, channel coding of UL-SCH, section 5.3.2
   encoded_bits{code_block_index} = ldpc_encode(code_blocks{code_block_index}, ldpc_base_graph, parity_check_matrices_protocol, K, Z_c);
 
 % 3GPP TS 38.212 subclause 6.2.5, rate matching
+  rate_matching_output_sequence_length{code_block_index} = bit_selection_calculate(encoded_bits{code_block_index}, ... 
+             modulation_order, ...
+             G, ...
+             number_of_layers, ...
+             number_of_code_blocks, ... 
+             limited_buffer_rate_match_indicator, ... 
+             code_block_group_per_tb_info);
+         
+  rate_matching_output_sequence{code_block_index} = bit_selection_implement(encoded_bits{code_block_index}, ...
+                                                                            rate_matching_output_sequence_length{code_block_index});
 
+  interleaving_output_sequence{code_block_index} = bit_interleaving(rate_matching_output_sequence{code_block_index}, ...
+                                                                    rate_matching_output_sequence_length{code_block_index}, ...
+                                                                    modulation_order);                                                                       
+end
 
 % 3GPP TS 38.212 subclause 6.2.6, code block concatenation
 
-end
 
 % 3GPP TS 38.212 subclause 6.2.7, data and control multiplexing
 
