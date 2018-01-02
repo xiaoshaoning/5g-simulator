@@ -1,4 +1,4 @@
-function [code_blocks, number_of_code_blocks, K, Z_c] = cb_segment_and_cb_crc_attach(transport_block_with_crc, ldpc_base_graph)
+function [code_blocks, number_of_code_blocks, K, Z_c, N, G] = cb_segment_and_cb_crc_attach(transport_block_with_crc, ldpc_base_graph)
 
 B = length(transport_block_with_crc);
 
@@ -40,8 +40,10 @@ Z_c = find_the_minimum_value_of_Z(K_b, K_prime);
 
 if ldpc_base_graph == 1
   K = 22 * Z_c;
+  N = 66 * Z_c;
 else
-  K = 10 * Z_c;  
+  K = 10 * Z_c;
+  N = 50 * Z_c;
 end
 
 s = 0;
@@ -63,5 +65,7 @@ for r = 0:(C-1)
 end    
 
 number_of_code_blocks = C;
+
+G = number_of_code_blocks * N;
 
 end

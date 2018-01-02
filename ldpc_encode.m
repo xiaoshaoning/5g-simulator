@@ -5,7 +5,7 @@
 % author: Xiao, Shaoning 萧少宁
 % license: MIT
 
-function [encoded_bits, H] = ldpc_encode(s, base_graph_index, parity_check_matrices_protocol, K, Z_c)
+function [encoded_bits, N, H] = ldpc_encode(s, base_graph_index, parity_check_matrices_protocol, K, Z_c, N)
 
 encoded_bits = zeros(3*K, 1);
 
@@ -24,7 +24,7 @@ if base_graph_index == 1
     c = 26;
     d = 42;
     e = 46;
-    N = 66 * Z_c;
+%     N = 66 * Z_c;
 %     z = K/b;
 %     set_index = lifting_size_table_lookup(z);    
 %     load parity_check_matrices_protocol_1
@@ -35,7 +35,7 @@ elseif base_graph_index == 2
     c = 14;
     d = 38;
     e = 42;
-    N = 50 * Z_c;
+%     N = 50 * Z_c;
 %     z = K/b;
 %     set_index = lifting_size_table_lookup(z);    
 %     load parity_check_matrices_protocol_2
