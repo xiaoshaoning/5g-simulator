@@ -60,7 +60,7 @@ limited_buffer_rate_match_indicator = 0;
              code_block_group_per_tb_info_enabled);
 
 encoded_bits = cell(1, number_of_code_blocks);
-rate_matching_output_sequence_length = cell(1, number_of_code_blocks);
+
 rate_matching_output_sequence = cell(1, number_of_code_blocks);
 interleaving_output_sequence = cell(1, number_of_code_blocks);
 
@@ -76,7 +76,7 @@ for code_block_index = 1:number_of_code_blocks
                                                                             Z_c);
 
   interleaving_output_sequence{code_block_index} = bit_interleave(rate_matching_output_sequence{code_block_index}, ...
-                                                                    rate_matching_output_sequence_length{code_block_index}, ...
+                                                                    rate_matching_output_sequence_lengths(code_block_index), ...
                                                                     modulation_order);                                                                       
 end
 
