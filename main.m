@@ -11,6 +11,8 @@ n_prb = 96;
 number_of_layers = 1;
 most_recent_configured_tbs = 0;
 rv_id = 0;
+N_cell_ID = 3;
+n_rnti = 100;
 
 [modulation_order, target_code_rate] = ulsch_modulation_order_and_target_code_rate(I_mcs, pusch_tp, mcs_table_pusch, mcs_table_pusch_transform_precoding);
 
@@ -81,9 +83,17 @@ for code_block_index = 1:number_of_code_blocks
 end
 
 % 3GPP TS 38.212 subclause 6.2.6, code block concatenation
-
+code_block_concatenated = code_block_concatenate(interleaving_output_sequence, number_of_code_blocks, rate_matching_output_sequence_lengths);
 
 % 3GPP TS 38.212 subclause 6.2.7, data and control multiplexing
+  % skip temporarily
+% 
 
+% 3GPP TS 38.211 6.3.1.1, scrambling
+n_id = N_cell_ID;
+scrambled_bits = pusch_scramble(code_block_concatenated, n_rnti, n_id);
+
+% 3GPP TS 38.211 6.3.1.2, modulation
+modulated_symbols = modulate_map(scrambled_bits, modulation_order); 
 
 end % end of main

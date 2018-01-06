@@ -4,7 +4,7 @@
 % @email: xiaoshaoning@foxmail.com
 % @date: 2018-01-01
 
-function [modulation_order, target_code_rate] = pusch_modulation_order_and_target_code_rate(I_mcs, pusch_tp, mcs_table_pusch, mcs_table_pusch_transform_precoding)
+function [modulation_order, target_code_rate] = ulsch_modulation_order_and_target_code_rate(I_mcs, pusch_tp, mcs_table_pusch, mcs_table_pusch_transform_precoding)
 
 if pusch_tp == 0  && ~strcmpi(mcs_table_pusch, '256qam') % pusch_tp is disabled, mcs_table_pusch is not set to 256QAM
   % table 5.1.3.1-1
