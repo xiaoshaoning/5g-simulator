@@ -1,4 +1,4 @@
-function [code_blocks, number_of_code_blocks, K, Z_c, N, G] = cb_segment_and_cb_crc_attach(transport_block_with_crc, ldpc_base_graph)
+function [code_blocks, number_of_code_blocks, K, Z_c, N] = cb_segment_and_cb_crc_attach(transport_block_with_crc, ldpc_base_graph)
 
 B = length(transport_block_with_crc);
 
@@ -65,7 +65,5 @@ for r = 0:(C-1)
 end    
 
 number_of_code_blocks = C;
-
-G = number_of_code_blocks * N;
 
 end

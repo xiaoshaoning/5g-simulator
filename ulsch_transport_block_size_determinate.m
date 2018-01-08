@@ -4,7 +4,7 @@
 % @email: xiaoshaoning@foxmail.com
 % @date: 2018-01-01
 
-function transport_block_size = ulsch_transport_block_size_determinate(I_mcs, ...
+function [transport_block_size, G] = ulsch_transport_block_size_determinate(I_mcs, ...
                                                                  modulation_order, ...
                                                                  target_code_rate, ...
                                                                  pusch_tp, ...
@@ -17,14 +17,13 @@ function transport_block_size = ulsch_transport_block_size_determinate(I_mcs, ..
                                                                  number_of_layers, ...
                                                                  most_recent_configured_tbs)
 N_prb_sc = 12;
+N_re_prime = N_prb_sc * N_scheduled_symbol - N_prb_dmrs - N_prb_overhead;
+G = N_re_prime * n_prb * modulation_order * number_of_layers;
 
 if ((I_mcs <=27) && (pusch_tp == 0) && strcmpi(mcs_table_pusch, '256qam')) || ...
       ((I_mcs <=27) && (pusch_tp == 1) && strcmpi(mcs_table_pusch_transform_precoding, '256qam')) || ...
       ((I_mcs <=28) && (pusch_tp == 0) && ~strcmpi(mcs_table_pusch, '256qam')) || ...
-      ((I_mcs <=27) && (pusch_tp == 1) && ~strcmpi(mcs_table_pusch_transform_precoding, '256qam'))
-  
-  N_re_prime = N_prb_sc * N_scheduled_symbol - N_prb_dmrs - N_prb_overhead;
-  
+      ((I_mcs <=27) && (pusch_tp == 1) && ~strcmpi(mcs_table_pusch_transform_precoding, '256qam'))  
   % quantized number of REs allocated for PUSCH within a PRB
   N_re_prime_bar = quantized_number_of_resource_elements_for_pdsch_within_a_prb(N_re_prime);
   
@@ -32,6 +31,8 @@ if ((I_mcs <=27) && (pusch_tp == 0) && strcmpi(mcs_table_pusch, '256qam')) || ..
   
   % steps 2-5 defined in subclause 5.1.3.2
   N_info = N_re * target_code_rate * modulation_order * number_of_layers;
+  
+  
   
   if N_info <= 3824
     % step 3
@@ -41,7 +42,7 @@ if ((I_mcs <=27) && (pusch_tp == 0) && strcmpi(mcs_table_pusch, '256qam')) || ..
     
     % use table 5.1.3.2-2
     tbs_table = tbs_table_for_N_info_less_than_3824;
-    tbs_list = tbs_table(tbs_table > N_info_prime);
+    tbs_list = tbs_table(tbs_table >= N_info_prime);
     transport_block_size = tbs_list(1);
     
   else
