@@ -1,13 +1,13 @@
-function tbs_lbrm = tbs_lbrm_determinate(max_number_of_layers, max_modulation_order, max_number_of_prbs)
+function tbs_lbrm = tbs_lbrm_determinate(max_number_of_layers, max_modulation_order, n_prb_lbrm)
 
-R_lbrm = 2/3;
+max_coding_rate = 948/1024;
 
 N_re_prime_bar = 156;
 
-N_re = N_re_prime_bar * max_number_of_prbs;
+N_re = N_re_prime_bar * n_prb_lbrm;
 
 % steps 2-5 defined in subclause 5.1.3.2
-N_info = N_re * R_lbrm * max_modulation_order * max_number_of_layers;
+N_info = N_re * max_coding_rate * max_modulation_order * max_number_of_layers;
 
 if N_info <= 3824
     % step 3

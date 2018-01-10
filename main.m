@@ -13,6 +13,7 @@ most_recent_configured_tbs = 0;
 rv_id = 0;
 N_cell_ID = 3;
 n_rnti = 100;
+max_number_of_prbs = 100;
 
 [modulation_order, target_code_rate] = ulsch_modulation_order_and_target_code_rate(I_mcs, pusch_tp, mcs_table_pusch, mcs_table_pusch_transform_precoding);
 
@@ -59,7 +60,8 @@ limited_buffer_rate_match_indicator = 0;
     number_of_code_blocks, ...
     limited_buffer_rate_match_indicator, ...
     code_block_group_per_tb_info, ...
-    code_block_group_per_tb_info_enabled);
+    code_block_group_per_tb_info_enabled, ...
+    max_number_of_prbs);
 
 encoded_bits = cell(1, number_of_code_blocks);
 
